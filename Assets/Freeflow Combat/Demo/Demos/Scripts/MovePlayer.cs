@@ -7,6 +7,8 @@ namespace FreeFlowCombatSpace
     {
         public float playerSpeed = 5f;
 
+        public int playerID = 1;
+
         CharacterController controller;
         Animator anim;
 
@@ -26,23 +28,50 @@ namespace FreeFlowCombatSpace
 
             if (Keyboard.current != null)
             {
-                if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-                    horizontal -= 1f;
-                if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-                    horizontal += 1f;
-                if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-                    vertical -= 1f;
-                if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-                    vertical += 1f;
+                // PLAYER 1 = ZQSD (AZERTY)
+                if (playerID == 1)
+                {
+                    if (Keyboard.current.qKey.isPressed)
+                        horizontal -= 1f;
+
+                    if (Keyboard.current.dKey.isPressed)
+                        horizontal += 1f;
+
+                    if (Keyboard.current.sKey.isPressed)
+                        vertical -= 1f;
+
+                    if (Keyboard.current.zKey.isPressed)
+                        vertical += 1f;
+                }
+
+                // PLAYER 2 = FLECHES
+                else if (playerID == 2)
+                {
+                    if (Keyboard.current.leftArrowKey.isPressed)
+                        horizontal -= 1f;
+
+                    if (Keyboard.current.rightArrowKey.isPressed)
+                        horizontal += 1f;
+
+                    if (Keyboard.current.downArrowKey.isPressed)
+                        vertical -= 1f;
+
+                    if (Keyboard.current.upArrowKey.isPressed)
+                        vertical += 1f;
+                }
             }
 
             Vector3 move = new Vector3(horizontal, 0, vertical);
+
             controller.Move(move * Time.deltaTime * playerSpeed);
 
-            if (move != Vector3.zero) {
-                gameObject.transform.forward = move;
+            if (move != Vector3.zero)
+            {
+                transform.forward = move;
                 anim.SetBool("Run", true);
-            }else{
+            }
+            else
+            {
                 anim.SetBool("Run", false);
             }
         }
